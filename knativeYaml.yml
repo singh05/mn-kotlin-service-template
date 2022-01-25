@@ -1,0 +1,15 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: "mn-shopback-app"
+spec:
+  template:
+    spec:
+      containers:
+      - image: "gcr.io/mn-shopback-app/jib-image"
+        name: "mn-shopback-app"
+        ports:
+        - containerPort: 8080
+          name: http1
+          protocol: TCP
+

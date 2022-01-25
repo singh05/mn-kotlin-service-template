@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.shopback
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: gradle_kotlin
+features: [annotation-api, app-name, config4k, data, data-r2dbc, flyway, github-workflow-docker-registry, github-workflow-graal-docker-registry, graalvm, gradle, http-client, jdbc-hikari, jib, junit, knative, kotlin, kotlin-application, kotlin-build, kotlin-extension-functions, kubernetes, logback, management, micrometer, micrometer-datadog, micrometer-prometheus, micronaut-build, mongo-reactive, mysql, netty-server, openapi, r2dbc, readme, shade, testcontainers, tracing-jaeger]
