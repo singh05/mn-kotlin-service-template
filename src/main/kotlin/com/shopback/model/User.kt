@@ -1,8 +1,12 @@
 package com.shopback.model
 
+import io.micronaut.core.annotation.Introspected
 import io.micronaut.data.annotation.*
 import io.micronaut.data.model.naming.NamingStrategies
 import java.time.LocalDateTime
+import javax.validation.constraints.Email
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.Size
 
 @MappedEntity(
     value = "users",
@@ -31,13 +35,18 @@ data class GetUser(
     val updatedAt: LocalDateTime?
 )
 
+@Introspected
 data class CreateUser(
+    @NotBlank @Size(min = 2, max = 50)
     val firstName: String,
     val lastName: String?,
+    @NotBlank @Email
     val email: String,
+    @NotBlank @Size(min = 3, max = 16)
     val password: String
 )
 
+@Introspected
 data class UpdateUser(
     val firstName: String? = null,
     val lastName: String? = null

@@ -6,6 +6,7 @@ import com.shopback.model.UpdateUser
 import com.shopback.model.User
 import com.shopback.repository.UserRepository
 import com.shopback.service.http.RandomUsersClient
+import com.shopback.utils.toNullable
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import java.util.*
@@ -16,7 +17,6 @@ interface UserService {
     suspend fun deleteUser(userId: Int): Boolean
     suspend fun findUserByEmail(email: String): User?
     suspend fun findUserById(userId: Int): User?
-
     suspend fun getRandomUser(): RandomUsers
 }
 
@@ -43,28 +43,27 @@ class UserServiceDBImpl : UserService {
 
     override suspend fun updateUser(userId: Int, updateUser: UpdateUser): Boolean {
         val user = userRepository.findById(userId)
-        user.ifPresent {
+        user?.let {
             val updated = it.copy(
                 firstName = updateUser.firstName ?: it.firstName,
                 lastName = updateUser.lastName ?: it.lastName
             )
-            userRepository.save(updated)
+            userRepository.update(updated)
+            return true
         }
-        return user.isPresent
+        return false
     }
 
     override suspend fun deleteUser(userId: Int): Boolean {
-        userRepository.deleteById(userId)
-        return true
+        return userRepository.deleteById(userId) > 0
     }
 
     override suspend fun findUserByEmail(email: String): User? {
-        val lowerEmail = email.lowercase()
-        return userRepository.findByEmail(lowerEmail).toNullable()
+        return userRepository.findByEmail(email)
     }
 
     override suspend fun findUserById(userId: Int): User? {
-        return userRepository.findById(userId).toNullable()
+        return userRepository.findById(userId)
     }
 
     override suspend fun getRandomUser(): RandomUsers {
@@ -72,5 +71,3 @@ class UserServiceDBImpl : UserService {
     }
 
 }
-
-fun <T : Any> Optional<T>.toNullable(): T? = this.orElse(null);

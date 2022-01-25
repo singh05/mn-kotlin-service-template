@@ -24,6 +24,7 @@ fun main(args: Array<String>) {
 	build()
 	    .args(*args)
 		.packages("com.shopback")
+        .environments("DD_ENV=local", "DD_SERVICE=mn-kotline-service")
 		.start()
 }
 
@@ -32,7 +33,7 @@ fun main(args: Array<String>) {
 @Singleton
 internal class ObjectMapperBeanEventListener : BeanCreatedEventListener<ObjectMapper> {
     override fun onCreated(event: BeanCreatedEvent<ObjectMapper>): ObjectMapper {
-        val mapper: ObjectMapper = event.getBean()
+        val mapper: ObjectMapper = event.bean
         mapper.registerModule(JavaTimeModule())
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         mapper.dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")

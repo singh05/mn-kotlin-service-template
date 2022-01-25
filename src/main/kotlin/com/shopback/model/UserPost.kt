@@ -1,5 +1,6 @@
 package com.shopback.model
 
+import io.micronaut.core.annotation.Introspected
 import io.micronaut.data.annotation.*
 import io.micronaut.data.model.naming.NamingStrategies
 import java.time.LocalDateTime
@@ -11,14 +12,14 @@ import java.time.LocalDateTime
 data class UserPost(
     @field:Id
     @field:GeneratedValue(GeneratedValue.Type.IDENTITY)
-    val postId: Int?,
+    var postId: Int? = null,
     val userId: Int,
     val title: String,
     val content: String,
     @field:DateCreated
-    val createdAt: LocalDateTime,
+    var createdAt: LocalDateTime,
     @field:DateUpdated
-    val updatedAt: LocalDateTime?
+    var updatedAt: LocalDateTime? = null
 )
 
 
@@ -32,11 +33,13 @@ data class GetUserPost(
 )
 
 
+@Introspected
 data class CreateUserPost(
     val title: String,
     val content: String
 )
 
+@Introspected
 data class UpdateUserPost(
     val title: String? = null,
     val content: String? = null
